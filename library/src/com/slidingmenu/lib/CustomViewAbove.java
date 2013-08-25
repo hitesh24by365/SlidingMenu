@@ -579,8 +579,10 @@ public class CustomViewAbove extends ViewGroup {
 
 	private boolean thisTouchAllowed(MotionEvent ev) {
 		int x = (int) (ev.getX() + mScrollX);
+		// NEW : UPDATE for top swipe 
+		int y = (int) (ev.getX());
 		if (isMenuOpen()) {
-			return mCustomViewBehind.menuOpenTouchAllowed(mContent, mCurItem, x);
+			return mViewBehind.menuOpenTouchAllowed(mContent, mCurItem, x);
 		} else {
 			switch (mTouchMode) {
 			case SlidingMenu.TOUCHMODE_FULLSCREEN:
@@ -588,7 +590,10 @@ public class CustomViewAbove extends ViewGroup {
 			case SlidingMenu.TOUCHMODE_NONE:
 				return false;
 			case SlidingMenu.TOUCHMODE_MARGIN:
-				return mCustomViewBehind.marginTouchAllowed(mContent, x);
+				// OLD : Pass x position to touch allowed
+				//	return mViewBehind.marginTouchAllowed(mContent, x);
+				// NEW : Pass y position to touch allowed
+				return mViewBehind.marginTouchAllowed(mContent, y);	
 			}
 		}
 		return false;
